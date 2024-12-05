@@ -19,12 +19,17 @@ struct User{
     char password[50];
 };
 
+struct adminuser{
+    char adminuser[50];
+    char adminpass[50];
+};
+
 // Function to display the main menu
 void displayMainMenu(){
     printf("\n=== Main Menu ===\n");
     printf("1. Login\n");
-    printf("2. Exit\n");
-    printf("3. Admin login\n");
+    printf("2. Admin login\n");
+    printf("3. Exit\n");
     printf("Enter your choice: ");
 }
 
@@ -49,9 +54,9 @@ int loginUser(struct User users[], int numUsers, char username[], char password[
 }
 
 // Admin login
-int adminloginuser(struct User admin[], int adminnum, char adminuser[], char adminpass[]){
+int adminlogin(struct adminuser admins[], int numadmins, char adminuser[], char adminpass[]){
     for(int i=0 ; i < numadmins ; i++){
-        if (strcmp(admin[i].adminuser, adminuser) == 0 && strcmp(adminuser[i].adminpass, adminpass) == 0){
+        if (strcmp(admins[i].adminuser, adminuser) == 0 && strcmp(admins[i].adminpass, adminpass) == 0){
             return i; // Return index of logged in admin
         }
     }
@@ -158,11 +163,13 @@ int main(){
     struct User users[5] = {
         {"user1", "pass1"}, {"user2", "pass2"}, {"user3", "pass3"}, {"user4", "pass4"}, {"Admin-Nex", "1234"},
     };
-    stuct admin[2] = {
+    struct adminuser admins[2] = {
         {"nex","1234"}, {"2.0","1234"}
     };
     int numUsers = 5;
     int numadmins = 2;
+
+    int flag=0;
 
     // Initialize bus data
     struct Bus buses[3] = {
@@ -176,12 +183,14 @@ int main(){
     int loggedInAdminId = -1; // "       "
 
     while (1){
-        if (loggedInUserId == -1){
+        if (loggedInUserId == -1 && loggedInAdminId)
+        {
             displayMainMenu();
             int choice;
             scanf("%d", &choice);
 
-            if (choice == 1){
+            if (choice == 1)
+            {
                 char username[50];
                 char password[50];
 
@@ -198,30 +207,40 @@ int main(){
                     printf("Login successful. Welcome, %s!\n", username);
                 }
             }
-            else if (choice == 3){
-                printf("Exiting the program.\n");
-                break;
-            }
-            else if (choice == 2){
+  
+            else if (choice == 2)
+            {
                 char adminuser[50];
                 char adminpass[50];
 
                 printf("Enter Username: ");
-                scanf("%s", username);
+                scanf("%s", adminuser);
                 printf("Enter Password: ");
-                scanf("%s", password);
+                scanf("%s", adminpass);
 
-                loggedInAdminId = adminloginuser(admin, numadmins, adminuser, adminpass);
+                loggedInAdminId = adminlogin(admins, numadmins, adminuser, adminpass);
                 if (loggedInAdminId == -1){
                     printf("Login failed. Please check your Username and Password. \n");
                 }
                 else{
                     printf("Login successful. Welcome, %s!\n", adminuser);
+                    flag=1;
                 }
             }
-            else{
+            else if (choice == 3)
+            {
+                printf("Exiting the program.\n");
+                break;
+            }
+            else
+            {
                 printf("Invalid choice. Please try again.\n");
             }
+        }
+
+        else if (flag == 1)
+        {
+           
         }
         else{
             displayUserMenu();
