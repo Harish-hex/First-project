@@ -43,6 +43,16 @@ void displayUserMenu(){
     printf("Enter your choice: ");
 }
 
+// Function to display the admin menu
+void displayadminmenu()
+{
+    printf("\n=== Main Menu ===\n");
+    printf("1. Check tickets\n");
+    printf("2. View booker information\n");
+    printf("3. Logout\n");
+    printf("Enter your choice: ");
+}
+
 // Function to perform user login
 int loginUser(struct User users[], int numUsers, char username[], char password[]){
     for (int i = 0; i < numUsers; i++){
@@ -158,6 +168,10 @@ void checkBusStatus(struct Bus buses[], int numBuses){
     }
 }
 
+void Ticketstatus(){
+
+}
+
 int main(){
     // Initialize user data
     struct User users[5] = {
@@ -183,7 +197,7 @@ int main(){
     int loggedInAdminId = -1; // "       "
 
     while (1){
-        if (loggedInUserId == -1 && loggedInAdminId)
+        if (loggedInUserId == -1 && loggedInAdminId == -1)
         {
             displayMainMenu();
             int choice;
@@ -224,7 +238,7 @@ int main(){
                 }
                 else{
                     printf("Login successful. Welcome, %s!\n", adminuser);
-                    flag=1;
+                    goto adminmain;
                 }
             }
             else if (choice == 3)
@@ -238,10 +252,6 @@ int main(){
             }
         }
 
-        else if (flag == 1)
-        {
-           
-        }
         else{
             displayUserMenu();
             int userChoice;
@@ -266,6 +276,32 @@ int main(){
             }
         }
     }
+
+    adminmain:
+        displayadminmenu();
+        int adminchoice;
+        scanf("%d", &adminchoice);
+
+        switch (adminchoice)
+        {
+        case 1:
+            Ticketstatus()
+            break;
+
+        case 2:
+            Bookerstatus()
+            break;
+
+        case 3:
+            printf("Logging out.\n");
+            loggedInAdminId = -1;
+            break;
+        
+        default:
+            printf("Invalid choice. Please try again.\n");
+        }
+
+
 
     return 0;
 }
