@@ -28,8 +28,8 @@ struct adminuser{
 void displayMainMenu(){
     printf("\n=== Main Menu ===\n");
     printf("1. Login\n");
-    printf("2. Admin login\n");
-    printf("3. Exit\n");
+    //printf("2. Admin login\n");
+    printf("2. Exit\n");
     printf("Enter your choice: ");
 }
 
@@ -231,7 +231,7 @@ int main(){
                 }
             }
 
-            else if (choice == 2)
+            else if (choice == 3)
             {
                 char adminuser[50];
                 char adminpass[50];
@@ -250,7 +250,7 @@ int main(){
                     flag=1;
                 }
             }
-            else if (choice == 3)
+            else if (choice == 2)
             {
                 printf("Exiting the program.\n");
                 break;
