@@ -231,9 +231,6 @@ void Change_fare(struct Bus buses[], int numbuses){
 
 }
 
-void Ticketstatus(){
-
-}
 
 int main(){
     // Initialize user data
