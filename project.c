@@ -47,8 +47,8 @@ void displayUserMenu(){
 void displayadminmenu()
 {
     printf("\n=== Main Menu ===\n");
-    printf("1. Check tickets\n");
-    printf("2. View booker information\n");
+    printf("1. Change destinations\n");
+    printf("2. Change bus fare\n");
     printf("3. Logout\n");
     printf("Enter your choice: ");
 }
@@ -168,6 +168,69 @@ void checkBusStatus(struct Bus buses[], int numBuses){
     }
 }
 
+void Change_destination(struct Bus buses[], int numbuses) {
+    printf("Enter bus number: ");
+    int busnumber;
+    scanf("%d", &busnumber);
+    getchar(); // Clear the newline character left by scanf
+
+    int busIndex = -1;
+    for (int i = 0; i < numbuses; i++) {
+        if (buses[i].busNumber == busnumber) {
+            busIndex = i;
+            break;
+        }
+    }
+
+    if (busIndex != -1) {
+        char desti_change[50];
+        char source_change[50];
+
+        // Change destination
+        printf("Enter the new destination: ");
+        fgets(desti_change, sizeof(desti_change), stdin);
+        desti_change[strcspn(desti_change, "\n")] = '\0'; // Remove the trailing newline
+        strcpy(buses[busIndex].destination, desti_change);
+
+        // Change source
+        printf("Enter the new source: ");
+        fgets(source_change, sizeof(source_change), stdin);
+        source_change[strcspn(source_change, "\n")] = '\0'; // Remove the trailing newline
+        strcpy(buses[busIndex].source, source_change);
+
+        printf("Source and destination updated successfully for Bus Number %d.\n", busnumber);
+    } else {
+        printf("Bus not found.\n");
+    }
+}
+
+
+void Change_fare(struct Bus buses[], int numbuses){
+    printf("Enter bus number: \n");
+    int BN;
+    scanf("%d", &BN);
+
+    int busin = -1;
+    for(int i = 0 ; i < BN ; i++){
+        if(buses[i].busNumber == BN){
+            busin = i;
+            break;
+        }
+    }
+
+    if (busin != -1){
+        int Fare_change;
+        printf("Enter new price: ");
+        scanf("%d", &Fare_change);
+        buses[busin].fare = Fare_change;
+    }
+
+    else{
+        printf("Bus not found.");
+    }
+
+}
+
 void Ticketstatus(){
 
 }
@@ -194,7 +257,7 @@ int main(){
     int numBuses = 3;
 
     int loggedInUserId = -1; // Index of the logged-in user
-    int loggedInAdminId = -1; // "       "
+    int loggedInAdminId = -1; // "       "       "
 
     while (1){
         if (loggedInUserId == -1 && loggedInAdminId == -1)
@@ -275,32 +338,31 @@ int main(){
                 printf("Invalid choice. Please try again.\n");
             }
         }
+
+        adminmain:
+            displayadminmenu();
+            int adminchoice;
+            scanf("%d", &adminchoice);
+
+            switch (adminchoice)
+            {
+            case 1:
+                Change_destination(buses,numBuses);
+                break;
+
+            case 2:
+                Change_fare(buses,numBuses);
+                break;
+
+            case 3:
+                printf("Logging out.\n");
+                loggedInAdminId = -1;
+                break;
+            
+            default:
+                printf("Invalid choice. Please try again.\n");
+            }
     }
-
-    adminmain:
-        displayadminmenu();
-        int adminchoice;
-        scanf("%d", &adminchoice);
-
-        switch (adminchoice)
-        {
-        case 1:
-            Ticketstatus()
-            break;
-
-        case 2:
-            Bookerstatus()
-            break;
-
-        case 3:
-            printf("Logging out.\n");
-            loggedInAdminId = -1;
-            break;
-        
-        default:
-            printf("Invalid choice. Please try again.\n");
-        }
-
 
 
     return 0;
